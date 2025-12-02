@@ -29,8 +29,8 @@ for start,end in lines:
             #print(split)
 
             if all(x == split[0] for x in split):
-                print(split)
-                print(id_)
+                #print(split)
+                #print(id_)
                 inv.add(id_)
 
 for id_ in inv:
