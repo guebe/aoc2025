@@ -1,4 +1,5 @@
 import itertools
+import re
 
 lines = list()
 
