@@ -3,19 +3,27 @@ import itertools
 lines = list()
 
 for line in [line.strip() for line in open(0).readlines()]:
-    x = line.split(' ')
-    a = int(x[2][0:-1])
-    b = int(x[4][0:-1])
-    c = int(x[6][0:-1])
-    d = int(x[8][0:-1])
-    e = int(x[10])
-    lines.append((a,b,c,d,e))
+    ranges = line.split(',')
+    for r in ranges:
+        nums = r.split('-')
+        assert(len(nums) == 2)
+        lines.append((int(nums[0]),int(nums[1])))
 
 print(lines)
 
 res = 0
 
-for line in lines:
-    pass
+for start,end in lines:
+    for id_ in range(start,end+1):
+        ids = str(id_)
+        print(ids)
+        if ((len(ids) % 2) == 0):
+            half = len(ids) // 2
+            first = ids[:half]
+            second = ids[half:]
+            print(f"{first} {second}")
+            if first == second:
+                # wrong id
+                res += id_
 
 print(res)
