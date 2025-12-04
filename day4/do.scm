@@ -183,7 +183,7 @@
 ;(display (grid-in-bounds? grid '(0 . 10))) (newline)
 ;(display (grid-neighbors grid grid-directions8 '( 0 . 0))) (newline)
 ;(display (grid-points grid)) (newline)
-
+ 
 ; implementation of today using above library functions
 (define grid (map string->list input))
 (define rolls
@@ -193,7 +193,6 @@
 
 (define (<4-neighbor-rolls rolls)
   (filter
-    ;(lambda (point) (< (length (filter (lambda (point) (char=? (grid-ref grid point) #\@)) (grid-neighbors grid grid-directions8 point))) 4))
     (lambda (x) (< (length (filter
 			     (lambda (y) (member y rolls))
 			     (grid-neighbors grid grid-directions8 x))) 4))
@@ -205,13 +204,9 @@
 (define part2-rolls
   (let loop ((state rolls)
 	     (acc '()))
-    (let ((result (filter
-		    (lambda (x) (< (length (filter
-					     (lambda (y) (member y state))
-					     (grid-neighbors grid grid-directions8 x))) 4))
-		    state)))
-      (if (= (length result) 0)
-	(reverse acc)
+    (let ((result (<4-neighbor-rolls state)))
+      (if (null? result)
+	acc
 	(loop
 	  (filter (lambda (point) (not (member point result))) state)
 	  (append acc result))))))
