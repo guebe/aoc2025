@@ -1,4 +1,4 @@
-(import (srfi 1))
+(import (srfi 1) (srfi 69))
 
 (define example '(
 "..@@.@@@@."
@@ -192,11 +192,13 @@
     (grid-points grid)))
 
 (define (<4-neighbor-rolls rolls)
-  (filter
-    (lambda (x) (< (length (filter
-			     (lambda (y) (member y rolls))
-			     (grid-neighbors grid grid-directions8 x))) 4))
-    rolls))
+  (let ((rolls-hash (make-hash-table)))
+    (for-each (lambda (x) (hash-table-set! rolls-hash x #t)) rolls)
+    (filter
+      (lambda (x)
+	(< (length (filter (lambda (y) (hash-table-exists? rolls-hash y))
+			   (grid-neighbors grid grid-directions8 x))) 4))
+      rolls)))
 
 (display (length (<4-neighbor-rolls rolls))) (newline)
 
