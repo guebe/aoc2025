@@ -14,9 +14,9 @@ for line in [line.strip() for line in open(0).readlines()]:
     else:
         ingridients.append(int(line))
 
-print(ranges)
-print(ingridients)
-print(len(ranges))
+#print(ranges)
+#print(ingridients)
+#print(len(ranges))
 
 res = 0
 fresh = set()
@@ -29,7 +29,7 @@ fresh = set()
 #        fresh.add(ing)
 
 ranges.sort()
-print(ranges)
+#print(ranges)
 fresh = list()
 fresh.append(ranges[0])
 
@@ -56,6 +56,6 @@ for fr, to in ranges:
 for fr, to in fresh:
     res += to - fr + 1
 
-print(len(fresh))
-print(fresh)
+#print(len(fresh))
+#print(fresh)
 print(res)

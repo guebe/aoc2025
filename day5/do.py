@@ -14,16 +14,13 @@ for line in [line.strip() for line in open(0).readlines()]:
     else:
         ingridients.append(int(line))
 
-print(ranges)
-print(ingridients)
-
 res = 0
 
 for ing in ingridients:
-    print(f"{ing}")
+    #print(f"{ing}")
     for fr, to in ranges:
         if ing in range(fr, to+1):
-            print("fresh")
+            #print("fresh")
             res += 1
             break
 
