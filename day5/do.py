@@ -1,22 +1,30 @@
 import itertools
 import re
 
-lines = list()
+ranges = list()
+ingridients = list()
 
+state = 0
 for line in [line.strip() for line in open(0).readlines()]:
-    x = line.split(' ')
-    a = int(x[2][0:-1])
-    b = int(x[4][0:-1])
-    c = int(x[6][0:-1])
-    d = int(x[8][0:-1])
-    e = int(x[10])
-    lines.append((a,b,c,d,e))
+    
+    if (line == ""):
+        state = 1
+    elif (state == 0):
+        ranges.append([int(x) for x in line.split('-')])
+    else:
+        ingridients.append(int(line))
 
-print(lines)
+print(ranges)
+print(ingridients)
 
 res = 0
 
-for line in lines:
-    pass
+for ing in ingridients:
+    print(f"{ing}")
+    for fr, to in ranges:
+        if ing in range(fr, to+1):
+            print("fresh")
+            res += 1
+            break
 
 print(res)
