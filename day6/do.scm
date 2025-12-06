@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 69) (srfi 95) (chicken irregex))
+(import (srfi 1))
 
 (define example '(
 (123 328  51 64)
@@ -23,10 +23,5 @@
 (define (part1 x)
   (fold + 0 (map eval (map reverse (transpose x)))))
 
-(define (part2 x)
-  x)
-
 (display (part1 example)) (newline)
-(display (part2 example)) (newline)
 (display (part1 input)) (newline)
-;(display (part2 input)) (newline)
