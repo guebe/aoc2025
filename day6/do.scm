@@ -21,7 +21,7 @@
     (cons (map car matrix) (transpose (map cdr matrix)))))
 
 (define (part1 x)
-  (fold + 0 (map eval (map reverse (transpose x)))))
+  (apply + (map eval (map reverse (transpose x)))))
 
 (display (part1 example)) (newline)
 (display (part1 input)) (newline)
