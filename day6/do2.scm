@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 69) (srfi 95) (chicken irregex))
+(import (srfi 1))
 
 (define example-nums '(
 "123 328  51 64 "
@@ -21,19 +21,10 @@
 +    +  +   +  +    *   +    *   +    *   *   *   *   *  +    +    +    *   *   +  *  +  +   +  *  +    +   +   *  *  +    +   +   *  *  +   *  +   *   +   +    *   +    +   *   *   +   +    *   *   +    +    +    *  *  *  *  +    *   +   *   *   +  +    *  +  +   +   +    +  *  +    +    +    *   +  *   *  *   *   *   +    +    +  +   +   +  +   *  +    *  +  *   *  +  +  *   +   +   +    *   *   *  *   *   *   *   *  +   *  *  *  +   *   +    +    *  +   *   +    +    +    *   *  *  +   *  *   *   *  *   +   +  +   +    +   *  *  +  *   +    +    *   +  +   +  *   +    +  +    *  *  +    *  *   *   *   +    +    *   *  +   *  *  +    *  +  *   *  *   +    *  +   +  +  +    *   *  +   +    *   *  *  *  *   *   *  *   *   *   *  +  +    *   +    +   *   +   +    *   +  *  *   +   +    *   *  *   +    *  *  +   *  *  +  *   +  +   *   +  *   *   +   +   +    +    *   *   *   *  +    +    *   *   +    *  +    *  +  +  +   *   +   +   +   *   +   *   *  *   +   *   *   *   +    *   *  *   +  *   *   +  +    +    +  *   *   *   +  *  +    *   +  +    *  *   *  *  +    +  +  +  +  +  *   *   +   +    *   *  *  *   +    *  *   *   +    +  +  *  *  *   +   *  +   +    *   *   +    +    *  *   +  +  +  +   +  +    +  *  *  +   *  *   *  +  +    +  *  +   *  *  +    +    *  *  +  +   *  +    *  +   *   *  +    *   *   +    *  *   +  +    *  +  *  *  +  +   *  *   *   *   *   +    +  *  *   +   *  +  *   *   +  +    *  +  *  +  +   *  +   *   *  +   *   *   +  +  *  +  *  *  *  +  +  +    *   +   *  +   *  +  +  *   +    *  *   *   *  +   *   +  *   *  *  *  +   +  +   +   *  +  +    *  +    +    +   +    *  *   +    +    *  +  *  *  +  +   *  *  +   *  +  *  *  +    +  +   +    +    *   *  *   *  +    +   *  +   +    +    *   *  +  *  *  +  +   +    *  +   +   +    +  +   +    *  *   +    +  +    +    +  *   *   +    +   +    +  *  +    +   *   *  *   *   *   *   +   *  *   +  +  *  +   *  *  +    +   *   *   *  +  *   *  +   +    +  *   +   +  +   *   *   *   *   +   +    +   *  +  +  *   +   *   *  +   +    *   +    *  +    *   +   *  +   *  *  *  *   +    +  +   +   *  *  *  +  *   +   +  +   *  +  +   *  *   +  +    +    +    *   *  *   *   +   +    *   +   *  +   +   *   *   +    +  +    +    +    *  *   *   +    *   +    *  +    +    *   +    +    +    *  *   *  *   *  *  *  +   +  +  *   *   +    *  +   *   +    +   *   +  *   +   *   +   +    +  +    +   *   +  *  *   *  +    +   +  +    *   *  +    *  *   +    *   *   *  +  +   *   *   *  +   *  *  *   *  +    +   *  *  +  +   +  +   +    *  *  +   +  +  +  +   +  *  *  +   *  +    +  *  +   +  +  *   *  *   *  +   +   *   +   +    +   *  +  +    *  +  +   *   *   +   *  *   *   *  +    *  *   +    *   *   +   +   +    +    *   *  +   *  +    +    +    *   +   *   *  *  +    *   +   *   *  +  *   +    +  +    +   +  +  *  *  *  *  *   *   +   *  +   *   +    +   *  +  *   *  +   +   +  +  +    *  *  *  +  +    *  *   +  +   *  +   +  *   *   +  *  +   *   +   *  *  +   *  +    *   +    *  *   +    +  *   *  +   *  +   +    +  *  *  +    +  *   +   *  *   +  *  *   *  *  *   +  +    *   *  +  *  +   *   *  *  *   *   +    +  *   +    *   *   *   *  *  +    +   +    *  *  +   *   +    +    *   +    +    *   +  *   *  *  *   *  *   *   +   *   *   +    *   +  +   +  +   *  *  *  *   +   +   *  +   *  *   +   +   +  +  *  +    *   *   +  +  *  *   *  *  +   *   *   +  *   +    +  +   +  *  *  +   *  +   +    *  +   *  +   +  *   *  +   *  *  +   *  *  *   *   +  +   *  *  *   *  *   +    +    +  +   +   *   *   *  *   *  *  +  +    *  +   *  +   +   *   *  *  +  *   +  *  +    *   +   *   *   *   +  *  *  *  +    *  +   *   +   +   +   +    +    +    +   +  +   +    +  +  +    *  +    *  *  *  *   *   *  *   +   +  *   +   *  *  +  *   *   +    +  *   *  
 ))
 
-;convert each nums line to list of chars
-;zip the lines of chars
-;"   8" "  83" " 799" "9162" "   "
-;make list of list of chars after every "    "
-;trim each number
-
 (define (transpose matrix)
   (if (every null? matrix)
     '()
     (cons (map car matrix) (transpose (map cdr matrix)))))
-
-(define (part1 x)
-  (fold + 0 (map eval (map reverse (transpose x)))))
 
 (define (space? x) (char=? x #\space))
 
@@ -54,16 +45,10 @@
 	      '()
 	      (split-columns (cdr list2)))))))
 
-(define (part2 x ops)
-  (display (transpose (map string->list x))) (newline) (newline)
-  (define hihi (map (lambda (x) (map whitespace-list->number x)) (split-columns (transpose (map string->list x)))))
-  (display hihi) (newline)
-  (display ops) (newline)
-  (apply + (map eval (map cons ops hihi))))
+(define (part2 nums ops)
+  (let* ((chars (split-columns (transpose (map string->list nums))))
+	 (ints (map (lambda (x) (map whitespace-list->number x)) chars)))
+    (apply + (map eval (map cons ops ints)))))
 
-
-
-;(display (part1 example)) (newline)
 (display (part2 example-nums example-ops)) (newline)
-;(display (part1 input)) (newline)
 (display (part2 input-nums input-ops)) (newline)
