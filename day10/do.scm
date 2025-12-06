@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 69) (srfi 95) (chicken irregex))
+(import (srfi 1))
 
 (define example '(
 ))
@@ -13,6 +13,6 @@
   x)
 
 (display (part1 example)) (newline)
-(display (part2 example)) (newline)
 (display (part1 input)) (newline)
+(display (part2 example)) (newline)
 (display (part2 input)) (newline)
