@@ -1,18 +1,18 @@
-my solution takes a window from the left
+My solution takes a window from the left.
 
-the windows size is overall size minus k whereas k is the size of the remaining
+The windows size is overall size minus k whereas k is the size of the remaining
 digits needed to get a n-digit number (that is n-digit minus 1 for the first
-iteration)
+iteration).
 
-in this window from the left the biggest number is chosen. lets
-call this number best.
+In this window from the left the biggest number is chosen. Lets call this
+number best.
 
-now we recurse into finding the best number from the found best position plus
-one step right. the number of digits we have to find is one less.
+Now we recurse into finding the best number from the found best position plus
+one step right. The number of digits we have to find is one less.
 
-do this until the best n-digits are found. that is the number of digits we
+Do this until the best n-digits are found. That is the number of digits we
 have to find is 0.
 
-because we search from the left and we do not consider the digits we still need
+Because we search from the left and we do not consider the digits we still need
 to build the biggest n-digit number this algorithm gives an optimal result.
 
