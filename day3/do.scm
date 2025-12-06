@@ -219,5 +219,10 @@
 	   (rest (cdr (drop-while (lambda (x) (not (= x best))) digits))))
       (cons best (solve rest (- k 1))))))
 
-(display (fold + 0 (map (lambda (x) (digits->number (solve (number->digits x) 2))) input))) (newline)
-(display (fold + 0 (map (lambda (x) (digits->number (solve (number->digits x) 12))) input))) (newline)
+(define (solve-sum in k)
+  (apply + (map (lambda (x) (digits->number (solve (number->digits x) k))) in)))
+
+(display (solve-sum example 2)) (newline)
+(display (solve-sum input 2)) (newline)
+(display (solve-sum example 12)) (newline)
+(display (solve-sum input 12)) (newline)
