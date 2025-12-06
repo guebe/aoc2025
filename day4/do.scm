@@ -185,8 +185,8 @@
 ;(display (grid-points grid)) (newline)
  
 ; implementation of today using above library functions
-(define grid (map string->list input))
-(define rolls
+
+(define (get-rolls grid)
   (filter
     (lambda (point) (char=? (grid-ref grid point) #\@))
     (grid-points grid)))
@@ -200,10 +200,8 @@
 			   (grid-neighbors grid grid-directions8 x))) 4))
       rolls)))
 
-(display (length (<4-neighbor-rolls rolls))) (newline)
-
 ; part2
-(define part2-rolls
+(define (part2 rolls)
   (let loop ((state rolls)
 	     (acc '()))
     (let ((result (<4-neighbor-rolls state)))
@@ -213,7 +211,12 @@
 	  (filter (lambda (point) (not (member point result))) state)
 	  (append acc result))))))
 
-(display (length part2-rolls)) (newline)
+(define grid (map string->list example))
+(display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
+(display (length (part2 (get-rolls grid)))) (newline)
+(define grid (map string->list input))
+(display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
+(display (length (part2 (get-rolls grid)))) (newline)
 
 
 
