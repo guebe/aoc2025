@@ -1223,7 +1223,7 @@
   (sum-ranges (merge-ranges (sort-ranges ranges))))
 
 (display (part1 example-ranges example-ingredients)) (newline)
-(display (part2 example-ranges)) (newline)
 (display (part1 input-ranges input-ingredients)) (newline)
+(display (part2 example-ranges)) (newline)
 (display (part2 input-ranges)) (newline)
 
