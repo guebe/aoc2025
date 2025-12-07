@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 95))
+(import (srfi 1))
 
 (define example-beams '(7))
 
@@ -166,39 +166,27 @@
 "............................................................................................................................................."
 ))
 
-
-(define (all-pos splitter)
-  (iota (length splitter)))
-
 (define (filter-splitter splitter)
   (filter
     (lambda (pos) (char=? (list-ref splitter pos) #\^))
-    (all-pos splitter)))
+    (iota (length splitter))))
 
-(define (colide splitters beams)
+(define (filter-colide splitters beams)
   (filter (lambda (beam) (member beam splitters)) beams))
 
-(define (non-colide splitters beams)
+(define (filter-non-colide splitters beams)
   (filter (lambda (beam) (not (member beam splitters))) beams))
 
 (define (colide-or-pass splitters beams)
-  (let* ((colisions (colide splitters beams))
-         (non-colisions (non-colide splitters beams))
+  (let* ((colisions (filter-colide splitters beams))
+         (non-colisions (filter-non-colide splitters beams))
 	 (left-colisions (map (lambda (x) (- x 1)) colisions))
 	 (right-colisions (map (lambda (x) (+ x 1)) colisions)))
     (cons
       (length colisions)
-      (filter-bounds
-	(length (car grid))
-	(delete-duplicates (sort (append non-colisions left-colisions right-colisions) <))))))
+      (delete-duplicates (append non-colisions left-colisions right-colisions)))))
 
-(define (in-bounds? len x)
-  (and (>= x 0) (< x len)))
-
-(define (filter-bounds len li)
-  (filter (lambda (x) (in-bounds? len x)) li))
-
-(define (step state splitters)
+(define (part1-step state splitters)
   (let ((num (car state))
 	(beams (cdr state)))
      (let ((next (colide-or-pass splitters beams)))
@@ -206,10 +194,9 @@
 	     (new-beams (cdr next)))
 	 (cons (+ num new-num) new-beams)))))
 
-(define grid (map string->list input))
-(display grid) (newline)
-(define splitters (map filter-splitter grid))
-(display example-beams) (newline)
-(display splitters) (newline)
-(display (foldl step (cons 0 input-beams) splitters)) (newline)
+(define (part1 x x-beams)
+  (car (foldl part1-step (cons 0 x-beams) (map filter-splitter (map string->list x)))))
+
+(display (part1 example example-beams)) (newline)
+(display (part1 input input-beams)) (newline)
 
