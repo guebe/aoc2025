@@ -166,74 +166,39 @@
 "............................................................................................................................................."
 ))
 
-
-(define (all-pos splitter)
-  (iota (length splitter)))
-
 (define (filter-splitter splitter)
   (filter
     (lambda (pos) (char=? (list-ref splitter pos) #\^))
-    (all-pos splitter)))
+    (iota (length splitter))))
 
-(define (colide splitters beams)
+(define (filter-colide splitters beams)
   (filter (lambda (beam) (member (car beam) splitters)) beams))
 
-(define (non-colide splitters beams)
+(define (filter-non-colide splitters beams)
   (filter (lambda (beam) (not (member (car beam) splitters))) beams))
 
 (define (is-same-beam? b1 b2) (let ((b1id (car b1)) (b2id (car b2))) (= b1id b2id)))
 
-(define (step222 beam acc)
-  (display "step222: ") (display acc) (newline)
-  (display "step222: ") (display beam) (newline)
+(define (merge-duplicates acc beam)
   (let ((same-beam (filter (lambda (x) (is-same-beam? x beam)) acc))
         (not-same-beam (filter (lambda (x) (not (is-same-beam? x beam))) acc)))
     (if (null? same-beam)
       (cons beam acc)
       (cons (cons (car beam) (+ (cdr (car same-beam)) (cdr beam))) not-same-beam))))
 
-(define (merge-duplicates beams)
-  (display "merge-duplicate input: ") (display beams) (newline)
-  (display "acc:") (display (list (car beams))) (newline)
-  (display "list:") (display (cdr beams)) (newline)
-  (define my-merge (fold step222 (list (car beams)) (cdr beams)))
-  (display "merge: ") (display my-merge) (newline)
-  my-merge)
+(define (colide-or-pass beams splitters)
+  (let* ((colisions (filter-colide splitters beams))
+         (non-colisions (filter-non-colide splitters beams))
+	 (left-colisions (map (lambda (x) (let ((beam (car x))(multiplier (cdr x))) (cons (- beam 1) multiplier))) colisions))
+	 (right-colisions (map (lambda (x) (let ((beam (car x))(multiplier (cdr x))) (cons (+ beam 1) multiplier))) colisions)))
+    (foldl merge-duplicates '() (append non-colisions left-colisions right-colisions))))
 
-(define (colide-or-pass splitters beams)
-  (let* ((colisions (colide splitters beams)) ; colision beam instances must morph to left and right colision instances  - new instances perhaps need to be generated
-         (non-colisions (non-colide splitters beams)); dont increat eh number for collisio beams
-	 (left-colisions (map (lambda (x) (let ((beam (car x))(multiplier (cdr x))) (cons (- beam 1) multiplier))) colisions)) ; each colision creates x new beam instances left
-	 (right-colisions (map (lambda (x) (let ((beam (car x))(multiplier (cdr x))) (cons (+ beam 1) multiplier))) colisions))) ; each colision creates x new beam instances right
-      ; merge the newly created colision instances to already existing beams - this is an optimization
-      (let ((new-beams (append non-colisions left-colisions right-colisions)))
-	(merge-duplicates new-beams))))
-
-(define (in-bounds? len x)
-  (and (>= x 0) (< x len)))
-
-(define (filter-bounds len li)
-  (filter (lambda (x) (in-bounds? len x)) li))
-
-(define (step state splitters)
-  (colide-or-pass splitters state))
-
-(define (foldl-debug f init lst)
-  (let ((counter 0))
-    (foldl
-     (lambda (acc x)
-       (set! counter (+ counter 1))
-       (display counter) (display ": ") (display acc) (newline)
-       (f acc x))
-     init
-     lst)))
-
-(define (add-beam r state)
+(define (add-beam state r)
   (+ state (cdr r)))
 
-(define grid (map string->list input))
-(define splitters (map filter-splitter grid))
-(display (length splitters)) (newline)
-(display (foldl-debug step input-beams splitters)) (newline)
-(display (fold add-beam 0 (foldl step input-beams splitters))) (newline)
+(define (part2 x x-beams)
+  (foldl add-beam 0 (foldl colide-or-pass x-beams (map filter-splitter (map string->list x)))))
+
+(display (part2 example example-beams)) (newline)
+(display (part2 input input-beams)) (newline)
 
