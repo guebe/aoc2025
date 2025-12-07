@@ -33,7 +33,7 @@
 
 (define (part1-colide-or-pass splitters beams)
   (let* ((colisions (part1-filter-colide splitters beams))
-         (non-colisions (part1-filter-non-colide splitters beams))
+	 (non-colisions (part1-filter-non-colide splitters beams))
 	 (left-colisions (map (lambda (x) (- x 1)) colisions))
 	 (right-colisions (map (lambda (x) (+ x 1)) colisions)))
     (cons
@@ -41,12 +41,12 @@
       (delete-duplicates (append non-colisions left-colisions right-colisions)))))
 
 (define (part1-step state splitters)
-  (let ((num (car state))
-	(beams (cdr state)))
-     (let ((next (part1-colide-or-pass splitters beams)))
-       (let ((new-num (car next))
-	     (new-beams (cdr next)))
-	 (cons (+ num new-num) new-beams)))))
+  (let* ((num (car state))
+	 (beams (cdr state))
+	 (next (part1-colide-or-pass splitters beams))
+	 (new-num (car next))
+	 (new-beams (cdr next)))
+    (cons (+ num new-num) new-beams)))
 
 (define (part1 x x-beams)
   (car (foldl part1-step (cons 0 x-beams) (map filter-splitter (map string->list x)))))
@@ -57,11 +57,11 @@
 (define (part2-filter-non-colide splitters beams)
   (filter (lambda (beam) (not (member (car beam) splitters))) beams))
 
-(define (is-same-beam? b1 b2) (let ((b1id (car b1)) (b2id (car b2))) (= b1id b2id)))
+(define (same-beam? b1 b2) (= (car b1) (car b2)))
 
 (define (merge-duplicates acc beam)
-  (let ((same-beam (filter (lambda (x) (is-same-beam? x beam)) acc))
-        (not-same-beam (filter (lambda (x) (not (is-same-beam? x beam))) acc)))
+  (let ((same-beam (filter (lambda (x) (same-beam? x beam)) acc))
+        (not-same-beam (filter (lambda (x) (not (same-beam? x beam))) acc)))
     (if (null? same-beam)
       (cons beam acc)
       (cons (cons (car beam) (+ (cdr (car same-beam)) (cdr beam))) not-same-beam))))
