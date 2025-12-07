@@ -1,6 +1,4 @@
-(import (srfi 1) (srfi 95))
-
-(define example-beams '((7 . 1)))
+(import (srfi 1))
 
 (define example '(
 "..............."
@@ -19,8 +17,6 @@
 ".^.^.^.^.^...^."
 "..............."
 ))
-
-(define input-beams '((70 . 1)))
 
 (define input '(
 "............................................................................................................................................."
@@ -199,6 +195,5 @@
 (define (part2 x x-beams)
   (foldl add-beam 0 (foldl colide-or-pass x-beams (map filter-splitter (map string->list x)))))
 
-(display (part2 example example-beams)) (newline)
-(display (part2 input input-beams)) (newline)
-
+(display (part2 example '((7 . 1)))) (newline)
+(display (part2 input '((70 . 1)))) (newline)
