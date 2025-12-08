@@ -56,31 +56,27 @@
 (define (distance< a b)
   (< (car a) (car b)))
 
-(define (part1-step acc x)
-  (let* ((a (cadr x))
-	 (b (caddr x))
-	 (A (car (filter (lambda (y) (member a y)) acc)))
-	 (B (car (filter (lambda (y) (member b y)) acc)))
-	 (C (filter (lambda (y) (not (or (member a y) (member b y)))) acc)))
+(define (connect-circuits circuits edge)
+  (let* ((a (cadr edge))
+	 (b (caddr edge))
+	 (A (car (filter (lambda (y) (member a y)) circuits)))
+	 (B (car (filter (lambda (y) (member b y)) circuits)))
+	 (C (filter (lambda (y) (not (or (member a y) (member b y)))) circuits)))
     (cons (lset-union = A B) C)))
 
 (define (part1 x n)
   (let 
     ((shortlist (take (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance< ) n))
      (setlist (map list (iota (length x)))))
-    (apply * (take (sort (map length (foldl part1-step setlist shortlist)) >) 3))
+    (apply * (take (sort (map length (foldl connect-circuits setlist shortlist)) >) 3))
     ))
 
-(define (part2-step acc xx)
-  (let* ((x (car xx))
-	 (a (cadr x))
-	 (b (caddr x))
-	 (A (car (filter (lambda (y) (member a y)) acc)))
-	 (B (car (filter (lambda (y) (member b y)) acc)))
-	 (C (filter (lambda (y) (not (or (member a y) (member b y)))) acc)))
-    (if (null? C)
-        x
-	(part2-step (cons (lset-union = A B) C) (cdr xx)))))
+(define (part2-step circuits edges)
+  (let* ((edge (car edges))
+	 (circuits (connect-circuits circuits edge)))
+    (if (= (length circuits) 1)
+        edge
+	(part2-step circuits (cdr edges)))))
 
 (define (part2 x)
   (let*
