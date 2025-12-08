@@ -61,30 +61,18 @@
 	 (A (car (filter (lambda (y) (member a y)) acc)))
 	 (B (car (filter (lambda (y) (member b y)) acc)))
 	 (C (filter (lambda (y) (not (or (member a y) (member b y)))) acc)))
-    ;(display acc) (newline)
-    ;(display (length (car acc))) (newline)
-    ;(display x) (newline)
-    ;(display A) (newline)
-    ;(display B) (newline)
-    ;(display C) (newline)
     (if (null? C)
         x
 	(part2-step (cons (lset-union = A B) C) (cdr xx)))))
 
-(define (part1 x)
-  (let 
-    ((shortlist (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance< ))
-     (setlist (map list (iota (length x)))))
-    (display shortlist) (newline)
-    (display setlist) (newline)
-    (let* ((res (part2-step setlist shortlist)))
-      (* (car (list-ref x (cadr res))) (car (list-ref x (caddr res)))))
-    ))
-
 (define (part2 x)
-  x)
+  (let* 
+    ((shortlist (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance< ))
+     (setlist (map list (iota (length x))))
+     (res (part2-step setlist shortlist)))
+     (* (car (list-ref x (cadr res))) (car (list-ref x (caddr res))))))
 
-(display (part1 example)) (newline)
-(display (part1 input)) (newline)
+(display (part2 example)) (newline)
+(display (part2 input)) (newline)
 ;(display (part2 example)) (newline)
 ;(display (part2 input)) (newline)
