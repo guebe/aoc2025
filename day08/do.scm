@@ -26,15 +26,20 @@
 (include "input.scm")
 
 (define (combinations2 acc li1 li2)
-  (if (null? li2)
-      acc
+  (if (null? (cdr li1))
+    acc
+    (if (null? li2)
       (combinations2
-	(append acc (map (lambda (x) (list (car li1) x)) li2))
+	acc
 	(cdr li1)
-	(cdr li2))))
+	(cddr li1))
+      (combinations2
+	(cons (list (car li1) (car li2)) acc)
+	li1
+	(cdr li2)))))
 
 (define (combinations li1)
-  (combinations2 '() li1 (cdr li1)))
+  (reverse (combinations2 '() li1 (cdr li1))))
 
 (define (distance2 a b)
   (let ((p1 (car a))
