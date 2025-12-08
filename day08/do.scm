@@ -69,10 +69,25 @@
     (apply * (take (sort (map length (foldl part1-step setlist shortlist)) >) 3))
     ))
 
+(define (part2-step acc xx)
+  (let* ((x (car xx))
+	 (a (cadr x))
+	 (b (caddr x))
+	 (A (car (filter (lambda (y) (member a y)) acc)))
+	 (B (car (filter (lambda (y) (member b y)) acc)))
+	 (C (filter (lambda (y) (not (or (member a y) (member b y)))) acc)))
+    (if (null? C)
+        x
+	(part2-step (cons (lset-union = A B) C) (cdr xx)))))
+
 (define (part2 x)
-  x)
+  (let*
+    ((shortlist (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance< ))
+     (setlist (map list (iota (length x))))
+     (res (part2-step setlist shortlist)))
+     (* (car (list-ref x (cadr res))) (car (list-ref x (caddr res))))))
 
 (display (part1 example 10)) (newline)
 (display (part1 input 1000)) (newline)
-;(display (part2 example)) (newline)
-;(display (part2 input)) (newline)
+(display (part2 example)) (newline)
+(display (part2 input)) (newline)
