@@ -56,9 +56,6 @@
 (define (distance< a b)
   (< (car a) (car b)))
 
-(define (length< a b)
-  (< (length a) (length b)))
-
 (define (part1-step acc x)
   (let* ((a (cadr x))
 	 (b (caddr x))
