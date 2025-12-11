@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 95))
+(import (srfi 1)) 
 
 (define example '(
 (7 1)
@@ -43,7 +43,7 @@
     (* (+ (abs (- x1 x2)) 1) (+ (abs (- y1 y2)) 1))))
 
 (define (part1 x)
-  (car (take (sort (map area (get-rectangles x)) >) 1)))
+  (fold max 0 (map area (get-rectangles x))))
 
 (define (get-polygon-impl acc in)
   (if (null? (cdr in))
@@ -70,7 +70,7 @@
 
 (define (part2 x)
   (let* ((polygon (get-polygon x)))
-    (car (take (sort (map area (filter (lambda (y) (inside? y polygon)) (get-rectangles x))) >) 1))))
+    (fold max 0 (map area (filter (lambda (y) (inside? y polygon)) (get-rectangles x))))))
 
 (display (part1 example)) (newline)
 (display (part1 input)) (newline)

@@ -151,8 +151,6 @@
 ".@@@@@@@.@....@@.@@@.@@@@..@@@.@@.@.@@@@.@.@@..@@@@@@@@@@.@..@@@@@..@@.@.@.@@.@@@@...@..@.@.@@@@@.@@..@@.@@@.@.....@@@@.....@@@@.@@@@.@"
 ))
 
-; my take on a generic scheme aoc grid library
-; design decisions: standard scheme list and pairs code
 (define (point r c) (cons r c))
 (define (point-r point) (car point))
 (define (point-c point) (cdr point))
@@ -173,19 +171,6 @@
     (lambda (r) (map (lambda (c) (point r c)) (iota (grid-width grid))))
     (iota (grid-height grid))))
 
-; used to test the library functions
-;(display grid) (newline)
-;(display (grid-ref grid '(0 . 0))) (newline)
-;(display (grid-ref grid '(0 . 1))) (newline)
-;(display (grid-ref grid '(0 . 2))) (newline)
-;(display (grid-in-bounds? grid '(-1 . 0))) (newline)
-;(display (grid-in-bounds? grid '(0 . 0))) (newline)
-;(display (grid-in-bounds? grid '(0 . 10))) (newline)
-;(display (grid-neighbors grid grid-directions8 '( 0 . 0))) (newline)
-;(display (grid-points grid)) (newline)
- 
-; implementation of today using above library functions
-
 (define (get-rolls grid)
   (filter
     (lambda (point) (char=? (grid-ref grid point) #\@))
@@ -200,7 +185,6 @@
 			   (grid-neighbors grid grid-directions8 x))) 4))
       rolls)))
 
-; part2
 (define (part2 rolls)
   (let loop ((state rolls)
 	     (acc '()))
@@ -217,6 +201,4 @@
 (define grid (map string->list input))
 (display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
 (display (length (part2 (get-rolls grid)))) (newline)
-
-
 
