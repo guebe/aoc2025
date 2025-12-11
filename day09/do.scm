@@ -43,11 +43,7 @@
   (> (car a) (car b)))
 
 (define (part1 x)
-  (let*
-    ((res (take (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance> ) 1))
-     (a (list-ref x (cadr (car res))))
-     (b (list-ref x (caddr (car res)))))
-    res))
+  (caar (take (sort (map (lambda (y) (cons (distance x y) y)) (combinations (iota (length x)))) distance> ) 1)))
 
 (define (part2 x)
   x)
