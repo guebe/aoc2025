@@ -1,0 +1,6 @@
+Solved part2 this way:
+- a scheme program generates constraints for a long z3 program
+- call z3 program to solve
+- use sed, awk, to sum the results
+
+ csi -s do2.scm | z3 -in | grep joltage | sed 's/((joltage //' | sed 's/))//' | awk '{sum += $1} END {print sum}'
