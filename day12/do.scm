@@ -3,8 +3,7 @@
 (define example '(
 ))
 
-(define input '(
-))
+(include "input.scm")
 
 (define (part1 x)
   x)
@@ -13,6 +12,6 @@
   x)
 
 (display (part1 example)) (newline)
-(display (part1 input)) (newline)
-(display (part2 example)) (newline)
-(display (part2 input)) (newline)
+;(display (part1 input)) (newline)
+;(display (part2 example)) (newline)
+;(display (part2 input)) (newline)
