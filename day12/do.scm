@@ -9,11 +9,7 @@
 	(dimension-x (quotient (car dimension) 3))
 	(dimension-y (quotient (cadr dimension) 3))
 	(dimension-xy (* dimension-x dimension-y)))
-    ;(display dimension) (newline)
-    ;(display presents) (newline)
-    ;(display num-presents) (newline))
     (<= num-presents dimension-xy)))
-
 
 (define (part1 x)
   (length (filter solve-line x)))
