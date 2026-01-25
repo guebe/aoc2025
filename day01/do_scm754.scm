@@ -1,25 +1,23 @@
-(define example '(-68 -30 48 -5 60 -55 -1 -99 14 -82 ))
+(define example '(-68 -30 48 -5 60 -55 -1 -99 14 -82))
 (load "input.scm")
 
-(define (part1 position password distances)
-  (if (null? distances)
-    password
-    ((lambda (new-position)
-       (part1 new-position
-	      (+ password (if (zero? new-position) 1 0))
-	      (cdr distances)))
-     (modulo (+ position (car distances)) 100))))
+(define (part1 start result dials)
+  (if (null? dials)
+    result
+    (let ((next (modulo (+ start (car dials)) 100)))
+      (part1 next
+	     (+ result (if (zero? next) 1 0))
+	     (cdr dials)))))
 
-(define (part2 position password distances)
-  (if (null? distances)
-    password
-    ((lambda (new-position)
-       (part2 (modulo new-position 100)
-	      (if (<= new-position 0)
-		(+ password (quotient new-position -100) (if (zero? position) 0 1))
-		(+ password (quotient new-position 100)))
-	      (cdr distances)))
-     (+ position (car distances)))))
+(define (part2 start result dials)
+  (if (null? dials)
+    result
+    (let ((next (+ start (car dials))))
+      (part2 (modulo next 100)
+	     (if (<= next 0)
+	         (+ result (quotient next -100) (if (zero? start) 0 1))
+	         (+ result (quotient next 100)))
+	     (cdr dials)))))
 
 (display (part1 50 0 example)) (newline)
 (display (part1 50 0 input)) (newline)

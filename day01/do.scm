@@ -1,24 +1,21 @@
-
-(define example '(-68 -30 48 -5 60 -55 -1 -99 14 -82 ))
-
-(include "input.scm")
+(define example '(-68 -30 48 -5 60 -55 -1 -99 14 -82))
+(load "input.scm")
 
 (define (step1 state r)
   (let ((x (modulo (+ (car state) r) 100)))
     (cons x
 	  (+ (cdr state)
 	     (if (= x 0)
-	       1
-	       0)))))
+	         1
+	         0)))))
 
 (define (step2 state r)
   (let ((x (+ (car state) r)))
     (cons (modulo x 100)
 	  (+ (cdr state)
-	     (cond
-	       ((<= x 0) (+ (quotient x -100) (if (zero? (car state)) 0 1)))
-	       ((>= x 100) (quotient x 100))
-	       (else 0))))))
+	     (if (<= x 0)
+	         (+ (quotient x -100) (if (zero? (car state)) 0 1))
+	         (quotient x 100))))))
 
 (define (part1 x)
   (cdr (foldl step1 (cons 50 0) x)))
