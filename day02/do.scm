@@ -41,7 +41,7 @@
       0
       (+ (if (f start) start 0) (sum-range f (+ start 1) end))))
 
-; solve across mulitple ranges
+; solve across multiple ranges
 (define (solve f ranges)
   (if (null? ranges)
       0
