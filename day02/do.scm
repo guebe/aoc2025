@@ -9,9 +9,8 @@
              (repeats-rec? n n-len p p-len end)))))
 
 ; returns #t if the string n is made of repeating string p, false otherwise
-(define (repeats? n p)
-  (let ((n-len (string-length n))
-	(p-len (string-length p)))
+(define (repeats? n n-len p)
+  (let ((p-len (string-length p)))
     (and (> p-len 0)
 	 (< p-len n-len)
 	 (= 0 (modulo n-len p-len))
@@ -22,18 +21,19 @@
   (let* ((n (number->string n))
 	 (n-len (string-length n)))
     (and (= 0 (modulo n-len 2))
-	 (repeats? n (substring n 0 (quotient n-len 2))))))
+	 (repeats? n n-len (substring n 0 (quotient n-len 2))))))
 
-(define (part2-valid-rec? n start end)
+(define (part2-valid-rec? n n-len start end)
   (if (> start end)
     #f
-    (or (repeats? n (substring n 0 start))
-	(part2-valid-rec? n (+ start 1) end))))
+    (or (repeats? n n-len (substring n 0 start))
+	(part2-valid-rec? n n-len (+ start 1) end))))
 
 ; part 2: check if number repeats by any pattern
 (define (part2-valid? n)
-  (let ((n (number->string n)))
-    (part2-valid-rec? n 1 (quotient (string-length n) 2))))
+  (let* ((n (number->string n))
+	 (n-len (string-length n)))
+    (part2-valid-rec? n n-len 1 (quotient n-len 2))))
 
 ; sum valid numbers in range
 (define (sum-range f start end acc)
