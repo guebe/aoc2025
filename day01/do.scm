@@ -2,24 +2,23 @@
 (load "input.scm")
 
 ; part1: count how often the dial reaches zero exactly
-(define (part1 start dials)
+(define (part1 start dials acc)
   (if (null? dials)
-    0
+    acc
     (let ((next (modulo (+ start (car dials)) 100)))
-      (+ (if (zero? next) 1 0)
-	 (part1 next (cdr dials))))))
+      (part1 next (cdr dials) (+ acc (if (zero? next) 1 0))))))
 
 ; part2: count how often the dial crosses zero
-(define (part2 start dials)
+(define (part2 start dials acc)
   (if (null? dials)
-    0
+    acc
     (let ((next (+ start (car dials))))
-      (+ (if (<= next 0)
-	     (+ (quotient next -100) (if (zero? start) 0 1))
-	     (quotient next 100))
-	 (part2 (modulo next 100) (cdr dials))))))
+      (part2 (modulo next 100) (cdr dials)
+	     (if (<= next 0)
+	         (+ acc (quotient next -100) (if (zero? start) 0 1))
+		 (+ acc (quotient next 100)))))))
 
-(display (part1 50 example)) (newline)
-(display (part1 50 input)) (newline)
-(display (part2 50 example)) (newline)
-(display (part2 50 input)) (newline)
+(display (part1 50 example 0)) (newline)
+(display (part1 50 input 0)) (newline)
+(display (part2 50 example 0)) (newline)
+(display (part2 50 input 0)) (newline)
