@@ -36,18 +36,23 @@
     (part2-valid-rec? n 1 (quotient (string-length n) 2))))
 
 ; sum valid numbers in range
-(define (sum-range f start end)
+(define (sum-range f start end acc)
   (if (> start end)
-      0
-      (+ (if (f start) start 0) (sum-range f (+ start 1) end))))
+      acc
+      (sum-range f
+		 (+ start 1)
+		 end
+		 (+ acc (if (f start) start 0)))))
 
 ; solve across multiple ranges
-(define (solve f ranges)
+(define (solve f ranges acc)
   (if (null? ranges)
-      0
-      (+ (sum-range f (caar ranges) (cadar ranges)) (solve f (cdr ranges)))))
+      acc
+      (solve f
+	     (cdr ranges)
+	     (+ acc (sum-range f (car (car ranges)) (car (cdr (car ranges))) 0)))))
 
-(display (solve part1-valid? example)) (newline)
-(display (solve part1-valid? input)) (newline)
-(display (solve part2-valid? example)) (newline)
-(display (solve part2-valid? input)) (newline)
+(display (solve part1-valid? example 0)) (newline)
+(display (solve part1-valid? input 0)) (newline)
+(display (solve part2-valid? example 0)) (newline)
+(display (solve part2-valid? input 0)) (newline)
