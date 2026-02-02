@@ -1,10 +1,16 @@
 (define example '(987654321111111 811111111111119 234234234234278 818181911112111))
 (load "input.scm")
 
-(define (take n lst)
-  (if (or (= n 0) (null? lst))
+(define (take lis k)
+  (if (zero? k)
       '()
-      (cons (car lst) (take (- n 1) (cdr lst)))))
+      (cons (car lis)
+	    (take (cdr lis) (- k 1)))))
+
+(define (fold f acc lis)
+  (if (null? lis)
+      acc
+      (fold f (f (car lis) acc) (cdr lis))))
 
 (define (number->digits number)
   (define (f number acc)
@@ -23,7 +29,7 @@
 (define (solve digits k)
   (if (= k 0)
     '()
-    (let* ((window (take (- (length digits) k -1) digits))
+    (let* ((window (take digits (- (length digits) k -1)))
 	   (best (apply max window))
 	   (rest (cdr (memv best digits))))
       (cons best (solve rest (- k 1))))))
