@@ -65,4 +65,3 @@
 (define grid (map string->list input))
 (display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
 (display (length (part2 (get-rolls grid)))) (newline)
-
