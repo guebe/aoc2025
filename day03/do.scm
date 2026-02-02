@@ -1,17 +1,11 @@
-(define example '(987654321111111 811111111111119 234234234234278 818181911112111))
+(define example '((9 8 7 6 5 4 3 2 1 1 1 1 1 1 1) (8 1 1 1 1 1 1 1 1 1 1 1 1 1 9) (2 3 4 2 3 4 2 3 4 2 3 4 2 7 8) (8 1 8 1 8 1 9 1 1 1 1 2 1 1 1)))
 (load "input.scm")
 (load "srfi-1.scm")
-
-(define (number->digits number)
-  (unfold-right (lambda (n) (= n 0))
-		(lambda (n) (modulo n 10))
-		(lambda (n) (quotient n 10))
-		number))
 
 (define (digits->number digits)
   (fold (lambda (d acc) (+ (* acc 10) d)) 0 digits))
 
-(define (max-joltage number k)
+(define (max-joltage digits k)
   (define (recur digits k)
     (if (= k 0)
         '()
@@ -19,7 +13,7 @@
 	       (best (fold (lambda (n acc) (if (> n acc) n acc)) 0 window))
 	       (rest (cdr (drop-while (lambda (x) (not (= x best))) digits))))
 	  (cons best (recur rest (- k 1))))))
-  (digits->number (recur (number->digits number) k)))
+  (digits->number (recur digits k)))
 
 (define (sum-joltage in k)
   (fold (lambda (n acc) (+ acc (max-joltage n k))) 0 in))
