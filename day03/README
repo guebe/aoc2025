@@ -15,4 +15,3 @@ have to find is 0.
 
 Because we search from the left and we do not consider the digits we still need
 to build the biggest n-digit number this algorithm gives an optimal result.
-
