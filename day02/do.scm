@@ -18,8 +18,7 @@
 
 ; part 1: check if number is its first half repeated
 (define (part1-valid? n)
-  (let* ((n (number->string n))
-	 (n-len (string-length n)))
+  (let ((n-len (string-length n)))
     (and (= 0 (modulo n-len 2))
 	 (repeats? n n-len (substring n 0 (quotient n-len 2))))))
 
@@ -31,9 +30,13 @@
 
 ; part 2: check if number repeats by any pattern
 (define (part2-valid? n)
-  (let* ((n (number->string n))
-	 (n-len (string-length n)))
+  (let ((n-len (string-length n)))
     (part2-valid-rec? n n-len 1 (quotient n-len 2))))
+
+(define (inline-display x)
+  (display x)
+  (newline)
+  x)
 
 ; sum valid numbers in range
 (define (sum-range f start end acc)
@@ -42,7 +45,7 @@
       (sum-range f
 		 (+ start 1)
 		 end
-		 (+ acc (if (f start) start 0)))))
+		 (+ acc (if (f (number->string start)) start 0)))))
 
 ; solve across multiple ranges
 (define (solve f ranges acc)
