@@ -35,23 +35,10 @@
   (recur directions 0))
 
 (define (get-rolls grid)
-  (define (for-each-row r acc)
-    (define (for-each-column c row acc)
-      (if (< c 0)
-	  acc
-          (if (char=? #\@ (list-ref row c))
-	    (for-each-column (- c 1) row (cons (+ c (* r 1024)) acc)) 
-	    (for-each-column (- c 1) row acc))))
-    (if (< r 0)
-        acc
-	(for-each-row (- r 1) (for-each-column (- grid-width 1) (list-ref grid r) acc))))
-  (for-each-row (- grid-height 1) '()))
-
-;  (define (grid-ref grid point) (list-ref (list-ref grid (car point)) (cdr point)))
-;  (filter (lambda (point) (char=? (grid-ref grid point) #\@))
-;	  (append-map (lambda (r) (map (lambda (c) (cons r c)) 
-;				       (iota grid-width)))
-;		      (iota grid-height))))
+  (append-map (lambda (r) (let ((row (list-ref grid r)))
+			    (filter-map (lambda (c) (if (char=? #\@ (list-ref row c)) (+ c (* r 1024)) #f))
+					(iota grid-width))))
+	      (iota grid-height)))
 
 (define (<4-neighbor-rolls rolls)
     (filter
