@@ -16,16 +16,14 @@
 (load "input.scm")
 (load "../test.scm")
 
-(define (point r c) (cons r c))
-(define (point-r point) (car point))
-(define (point-c point) (cdr point))
-(define (point+ p1 p2) (point (+ (point-r p1) (point-r p2)) (+ (point-c p1) (point-c p2))))
+;; point is (row . column)
+(define (point+ p1 p2) (cons (+ (car p1) (car p2)) (+ (cdr p1) (cdr p2))))
 (define (grid-height grid) (length grid))
 (define (grid-width grid) (length (car grid)))
-(define (grid-ref grid point) (list-ref (list-ref grid (point-r point)) (point-c point)))
+(define (grid-ref grid point) (list-ref (list-ref grid (car point)) (cdr point)))
 (define grid-directions8 '((-1 . -1) (-1 . 0) (-1 . 1) (0 . -1) (0 . 1) (1 . -1) (1 . 0) (1 . 1)))
 (define (grid-in-bounds? grid point)
-  (let ((r (point-r point)) (c (point-c point)))
+  (let ((r (car point)) (c (cdr point)))
     (and (>= r 0) (>= c 0) (< r (grid-height grid)) (< c (grid-width grid)))))
 (define (grid-neighbors grid directions point)
   (filter
@@ -33,7 +31,7 @@
     (map (lambda (direction) (point+ point direction)) directions)))
 (define (grid-points grid)
   (append-map
-    (lambda (r) (map (lambda (c) (point r c)) (iota (grid-width grid))))
+    (lambda (r) (map (lambda (c) (cons r c)) (iota (grid-width grid))))
     (iota (grid-height grid))))
 
 (define (get-rolls grid)
