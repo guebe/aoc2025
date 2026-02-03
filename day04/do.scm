@@ -13,7 +13,8 @@
 "@.@.@@@.@."
 ))
 
-(include "input.scm")
+(load "input.scm")
+(load "../test.scm")
 
 (define (point r c) (cons r c))
 (define (point-r point) (car point))
@@ -60,8 +61,8 @@
 	  (append acc result))))))
 
 (define grid (map string->list example))
-(display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
-(display (length (part2 (get-rolls grid)))) (newline)
+(test (length (<4-neighbor-rolls (get-rolls grid))) 13)
+(test (length (part2 (get-rolls grid))) 43)
 (define grid (map string->list input))
-(display (length (<4-neighbor-rolls (get-rolls grid)))) (newline)
-(display (length (part2 (get-rolls grid)))) (newline)
+(test (length (<4-neighbor-rolls (get-rolls grid))) 1367)
+(test (length (part2 (get-rolls grid))) 9144)
