@@ -1,4 +1,4 @@
-(import (srfi 1) (srfi 69))
+(import (srfi 1))
 
 (define example '(
 "..@@.@@@@."
@@ -17,30 +17,46 @@
 (load "../test.scm")
 
 ;; point is (row . column)
-(define (grid-ref grid point) (list-ref (list-ref grid (car point)) (cdr point)))
+;; point is (row * 1024 + column)
 
 ;; gets all points neighboring (in 8 directions) point, but only if the new
 ;; point is inside grid dimensions
-(define (neighbors point)
-  (let ((directions '((-1 . -1) (-1 . 0) (-1 . 1) (0 . -1) (0 . 1) (1 . -1) (1 . 0) (1 . 1))))
-    (filter (lambda (p) (let ((r (car p)) (c (cdr p))) (and (>= r 0) (>= c 0) (< r grid-height) (< c grid-width))))
-	    (map (lambda (d) (cons (+ (car point) (car d)) (+ (cdr point) (cdr d))))
-		 directions))))
+(define (neighbors point rolls)
+  (define directions '((-1 . -1) (-1 . 0) (-1 . 1) (0 . -1) (0 . 1) (1 . -1) (1 . 0) (1 . 1)))
+  (define (recur d acc)
+    (if (or (null? d) (>= acc 4))
+        (< acc 4) 
+	(let ((x (car d)))
+          (let ((r (+ (car x) (quotient point 1024)))
+	        (c (+ (cdr x) (modulo point 1024))))
+	    (if (and (>= r 0) (>= c 0) (< r grid-height) (< c grid-width) (memv (+ c (* 1024 r)) rolls))
+	        (recur (cdr d) (+ 1 acc))
+	        (recur (cdr d) acc))))))
+  (recur directions 0))
 
 (define (get-rolls grid)
-  (filter (lambda (point) (char=? (grid-ref grid point) #\@))
-	  (append-map (lambda (r) (map (lambda (c) (cons r c)) 
-				       (iota grid-width)))
-		      (iota grid-height))))
+  (define (for-each-row r acc)
+    (define (for-each-column c row acc)
+      (if (< c 0)
+	  acc
+          (if (char=? #\@ (list-ref row c))
+	    (for-each-column (- c 1) row (cons (+ c (* r 1024)) acc)) 
+	    (for-each-column (- c 1) row acc))))
+    (if (< r 0)
+        acc
+	(for-each-row (- r 1) (for-each-column (- grid-width 1) (list-ref grid r) acc))))
+  (for-each-row (- grid-height 1) '()))
+
+;  (define (grid-ref grid point) (list-ref (list-ref grid (car point)) (cdr point)))
+;  (filter (lambda (point) (char=? (grid-ref grid point) #\@))
+;	  (append-map (lambda (r) (map (lambda (c) (cons r c)) 
+;				       (iota grid-width)))
+;		      (iota grid-height))))
 
 (define (<4-neighbor-rolls rolls)
-  (let ((rolls-hash (make-hash-table)))
-    (for-each (lambda (x) (hash-table-set! rolls-hash x #t)) rolls)
     (filter
-      (lambda (x)
-	(< (length (filter (lambda (y) (hash-table-exists? rolls-hash y))
-			   (neighbors x))) 4))
-      rolls)))
+      (lambda (x) (neighbors x rolls))
+      rolls))
 
 (define (part2 rolls)
   (let loop ((state rolls)
