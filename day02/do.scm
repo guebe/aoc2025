@@ -1,5 +1,6 @@
 (define example '((11 22) (95 115) (998 1012) (1188511880 1188511890) (222220 222224) (1698522 1698528) (446443 446449) (38593856 38593862) (565653 565659) (824824821 824824827) (2121212118 2121212123)))
 (load "input.scm")
+(load "../test.scm")
 
 ; returns #t if the string n is made of repeating string p, false otherwise
 (define (repeats? n n-len p)
@@ -33,11 +34,6 @@
 	    (recur (+ start 1)))))
   (recur 1))
 
-(define (inline-display x)
-  (display x)
-  (newline)
-  x)
-
 ; sum valid numbers in range
 (define (sum-range f start end acc)
   (if (> start end)
@@ -55,7 +51,7 @@
 	     (cdr ranges)
 	     (+ acc (sum-range f (car (car ranges)) (car (cdr (car ranges))) 0)))))
 
-(display (solve part1-valid? example 0)) (newline)
-(display (solve part1-valid? input 0)) (newline)
-(display (solve part2-valid? example 0)) (newline)
-(display (solve part2-valid? input 0)) (newline)
+(test (solve part1-valid? example 0) 1227775554)
+(test (solve part1-valid? input 0) 18893502033)
+(test (solve part2-valid? example 0) 4174379265)
+(test (solve part2-valid? input 0) 26202168557)

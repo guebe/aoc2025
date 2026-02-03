@@ -1,6 +1,7 @@
 (define example '((9 8 7 6 5 4 3 2 1 1 1 1 1 1 1) (8 1 1 1 1 1 1 1 1 1 1 1 1 1 9) (2 3 4 2 3 4 2 3 4 2 3 4 2 7 8) (8 1 8 1 8 1 9 1 1 1 1 2 1 1 1)))
 (load "input.scm")
 (load "../srfi-1.scm")
+(load "../test.scm")
 
 (define (digits->number digits)
   (fold (lambda (d acc) (+ (* acc 10) d)) 0 digits))
@@ -18,7 +19,7 @@
 (define (sum-joltage in k)
   (fold (lambda (n acc) (+ acc (max-joltage n k))) 0 in))
 
-(display (sum-joltage example 2)) (newline)
-(display (sum-joltage input 2)) (newline)
-(display (sum-joltage example 12)) (newline)
-(display (sum-joltage input 12)) (newline)
+(test (sum-joltage example 2) 357)
+(test (sum-joltage input 2) 17196)
+(test (sum-joltage example 12) 3121910778619)
+(test (sum-joltage input 12) 171039099596062)

@@ -1,0 +1,23 @@
+(define (fail result expected)
+  (display "test failed: ")
+  (newline)
+  (display "got result:  ")
+  (display result)
+  (newline)
+  (display "expected:    ")
+  (display expected)
+  (newline))
+
+(define (pass result)
+  (display result)
+  (newline))
+
+(define (test result expected)
+  (if (equal? result expected)
+      (pass result)
+      (fail result expected)))
+
+(define (inline-display x)
+  (display x)
+  (newline)
+  x)
