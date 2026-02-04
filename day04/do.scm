@@ -1,4 +1,5 @@
-(import (srfi 1))
+;(import (scheme r5rs))
+;(load "../../femtolisp/aliases.scm")
 (define example '(
 "..@@.@@@@."
 "@@@.@.@.@@"
@@ -19,6 +20,9 @@
                       (0 . -1)           (0 . 1)
                       (1 . -1)  (1 . 0)  (1 . 1)))
 
+(define (is-roll? r c)
+  (char=? #\@ (string-ref (list-ref grid r) c)))
+
 ;; Check paper rolls (@) in on-grid neighbors (8 directions).
 ;; Returns #t if >= 4 rolls found (early-exit).
 ;; Returns #f otherwise.
@@ -31,7 +35,7 @@
 	       (r (+ (car dir) (quotient point 1024)))
 	       (c (+ (cdr dir) (modulo point 1024))))
 	  (if (and (>= r 0) (>= c 0) (< r grid-height) (< c grid-width)
-		   (memv (+ c (* 1024 r)) rolls))
+		   (is-roll? r c))
 	      (recur (cdr d) (+ 1 acc))
 	      (recur (cdr d) acc)))))
   (recur *directions* 0))
@@ -46,10 +50,10 @@
         acc
         (scan-rows (cdr rows) (+ r 1) (scan-cols (car rows) r 0 acc))))
   (define (scan-cols cols r c acc)
-    (if (null? cols)
+    (if (>= c (string-length cols))
         acc
-        (scan-cols (cdr cols) r (+ c 1)
-                   (if (char=? #\@ (car cols))
+        (scan-cols cols r (+ c 1)
+                   (if (char=? #\@ (string-ref cols c))
                        (cons (+ c (* r 1024)) acc)
                        acc))))
   (scan-rows grid 0 '()))
@@ -57,27 +61,43 @@
 (define (count-forklift-access-1 rolls)
   (count (lambda (x) (forklift-access? x rolls)) rolls))
 
+(define (remove-roll! r c)
+  (string-set! (list-ref grid r) c #\.))
+
+;  (define (recur i c rest)
+;    ;(display c)
+;    ;(newline)
+;    (if (null? rest)
+;        i
+;	(if (forklift-access? (car rest) rolls)
+;	    (recur (+ i 1) (+ c 1) (cdr rest))
+;	    (recur i (+ c 1) (cdr rest)))))
+;  (recur 0 0 rolls))
+
 (define (filter-forklift-access rolls)
-    (filter (lambda (x) (forklift-access? x rolls)) rolls))
+  (filter (lambda (x) (forklift-access? x rolls)) rolls))
 
 (define (count-forklift-access-2 rolls)
   (define (recur rolls acc)
     (let ((accessible (filter-forklift-access rolls)))
       (if (null? accessible)
 	  acc
+	  ((lambda ()
+	  (for-each (lambda (p) (remove-roll! (quotient p 1024) (modulo p 1024)))
+                    accessible)
 	  (recur (filter (lambda (p) (not (memv p accessible))) rolls)
-		 (+ acc (length accessible))))))
+		 (+ acc (length accessible))))))))
   (recur rolls 0))
 
-(define grid (map string->list example))
+(define grid example)
 (define grid-height (length grid))
-(define grid-width (length (car grid)))
+(define grid-width (string-length (car grid)))
 (define rolls (make-rolls grid))
 (test (count-forklift-access-1 rolls) 13)
 (test (count-forklift-access-2 rolls) 43)
-(define grid (map string->list input))
+(define grid input)
 (define grid-height (length grid))
-(define grid-width (length (car grid)))
+(define grid-width (string-length (car grid)))
 (define rolls (make-rolls grid))
 (test (count-forklift-access-1 rolls) 1367)
 (test (count-forklift-access-2 rolls) 9144)
