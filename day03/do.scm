@@ -11,8 +11,8 @@
     (if (= k 0)
         '()
 	(let* ((window (take digits (- (length digits) k -1)))
-	       (best (fold (lambda (n acc) (if (> n acc) n acc)) 0 window))
-	       (rest (cdr (drop-while (lambda (x) (not (= x best))) digits))))
+	       (best (apply max window))
+	       (rest (cdr (memv best digits))))
 	  (cons best (recur rest (- k 1))))))
   (digits->number (recur digits k)))
 
