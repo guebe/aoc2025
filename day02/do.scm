@@ -49,7 +49,7 @@
       acc
       (solve f
 	     (cdr ranges)
-	     (+ acc (sum-range f (car (car ranges)) (car (cdr (car ranges))) 0)))))
+	     (sum-range f (car (car ranges)) (car (cdr (car ranges))) acc))))
 
 (test (solve part1-valid? example 0) 1227775554)
 (test (solve part1-valid? input 0) 18893502033)
