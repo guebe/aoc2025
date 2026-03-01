@@ -1,3 +1,5 @@
+;(import (scheme r5rs))
+;(load "../../femtolisp/aliases.scm")
 (define example '((9 8 7 6 5 4 3 2 1 1 1 1 1 1 1) (8 1 1 1 1 1 1 1 1 1 1 1 1 1 9) (2 3 4 2 3 4 2 3 4 2 3 4 2 7 8) (8 1 8 1 8 1 9 1 1 1 1 2 1 1 1)))
 (load "input.scm")
 (load "../srfi-1.scm")

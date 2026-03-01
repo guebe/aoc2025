@@ -1,3 +1,5 @@
+;(import (scheme r5rs))
+;(load "../../femtolisp/aliases.scm")
 (define example '(-68 -30 48 -5 60 -55 -1 -99 14 -82))
 (load "input.scm")
 (load "../test.scm")
